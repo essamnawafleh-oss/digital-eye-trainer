@@ -1,0 +1,83 @@
+{
+  "documents": 45,
+  "summary": {
+    "false_acceptance_rate": {
+      "original": 0.0044,
+      "fine_tuned": 0.0
+    },
+    "field_exact_match": {
+      "original": 0.84,
+      "fine_tuned": 0.9867
+    },
+    "critical_field_exact_match": {
+      "original": 0.713,
+      "fine_tuned": 0.9722
+    },
+    "field_coverage": {
+      "original": 0.8725,
+      "fine_tuned": 0.9951
+    },
+    "uncertainty_detection_rate": {
+      "original": 0.9722,
+      "fine_tuned": 1.0
+    },
+    "unnecessary_review_rate": {
+      "original": 0.1429,
+      "fine_tuned": 0.1486
+    },
+    "coordinate_numeric_accuracy": {
+      "original": 0.9608,
+      "fine_tuned": 0.9608
+    },
+    "mean_cer": {
+      "original": null,
+      "fine_tuned": null
+    },
+    "seconds_mean": {
+      "original": 3.74,
+      "fine_tuned": 3.969
+    }
+  },
+  "by_language": {
+    "original": {
+      "ar": {
+        "fields": 72,
+        "correct": 37,
+        "false_acceptance": 1,
+        "flagged": 38
+      },
+      "en": {
+        "fields": 72,
+        "correct": 71,
+        "false_acceptance": 0,
+        "flagged": 13
+      },
+      "mixed": {
+        "fields": 72,
+        "correct": 72,
+        "false_acceptance": 0,
+        "flagged": 2
+      }
+    },
+    "fine_tuned": {
+      "ar": {
+        "fields": 72,
+        "correct": 70,
+        "false_acceptance": 0,
+        "flagged": 14
+      },
+      "en": {
+        "fields": 72,
+        "correct": 71,
+        "false_acceptance": 0,
+        "flagged": 13
+      },
+      "mixed": {
+        "fields": 72,
+        "correct": 72,
+        "false_acceptance": 0,
+        "flagged": 0
+      }
+    }
+  }
+}

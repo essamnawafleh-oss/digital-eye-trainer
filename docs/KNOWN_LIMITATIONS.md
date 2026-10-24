@@ -36,8 +36,8 @@
   measurements so far support, but they differ from Baidu's own recipe.
 * BatchNorm statistics are frozen (small batches); if your documents look very different from
   the base model's data, this may limit adaptation.
-* On a 4-core CPU a step (batch 16) takes ≈4–5 s: 1,000 steps ≈ 1h15. Large runs need patience
-  or a GPU.
+* On a 4-core CPU a step (batch 16) takes ≈2.5 s (measured: 1,200 steps in 50 minutes), so
+  1,000 steps ≈ 42 minutes, longer if the computer is busy. Large runs need patience or a GPU.
 * Catastrophic forgetting is controlled by mixing synthetic general lines (50/50 by default)
   and checked by the test-set comparison, but text types absent from both your labels and the
   generator (e.g. long English paragraphs) are not measured.

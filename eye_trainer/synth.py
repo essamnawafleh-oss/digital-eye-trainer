@@ -150,7 +150,7 @@ def make_line(rng: random.Random) -> str:
         return rng.choice([f"{rng.randint(1, 30)}  {e:.2f}  {n:.2f}", f"E: {e:.2f}  N: {n:.2f}",
                            f"الإحداثي الشرقي: {e:.2f}"])
     if kind == "mixed_en_first":
-        return rng.choice([f"Building Permit / رخصة بناء", f"{rng.choice(EN_LABELS)}: {_name(rng)}",
+        return rng.choice(["Building Permit / رخصة بناء", f"{rng.choice(EN_LABELS)}: {_name(rng)}",
                            f"{rng.choice(EN_LABELS)} / {rng.choice(AR_LABELS)}: {_id(rng)}"])
     v = fmt_number(_num(rng, 0, 99999, 2), rng.choice([0, 2]), ar_dig, rng.random() < .3)
     return v

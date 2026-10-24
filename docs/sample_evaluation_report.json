@@ -1,0 +1,405 @@
+{
+  "report": "digital-eye-trainer evaluation",
+  "created": "2026-10-24 17:44:16",
+  "privacy": "This file contains only counts and rates. No document text, names, file names or images.",
+  "info": {
+    "test_set": "synthetic",
+    "documents": 25,
+    "lines": 1000,
+    "documents_shared_with_training": 0,
+    "run": "sample",
+    "training_steps": 1200,
+    "seconds": 286.3,
+    "note": "synthetic lines from the same generator and fonts as the synthetic training data (different seed and documents): this measures the pipeline, not real-world accuracy"
+  },
+  "environment": {
+    "python": "3.13.17",
+    "os": "Linux 6.18.44-fc-v153",
+    "machine": "x86_64",
+    "paddlepaddle": "3.3.1",
+    "device": "cpu"
+  },
+  "views": {
+    "digital_eye": "What Digital Eye receives (after PaddleX's bidi step) vs. the typed label",
+    "raw_model": "Raw model output vs. the label in visual order (pure recognition quality)"
+  },
+  "before": {
+    "digital_eye": {
+      "all": {
+        "lines": 1000,
+        "cer": 0.3088,
+        "line_exact_match": 0.235,
+        "numbers": 1258,
+        "number_exact_match": 0.2687,
+        "ids": 218,
+        "id_exact_match": 0.2294,
+        "persian_letter_outputs": 0
+      },
+      "arabic": {
+        "lines": 571,
+        "cer": 0.3008,
+        "line_exact_match": 0.0736,
+        "numbers": 653,
+        "number_exact_match": 0.0689,
+        "ids": 113,
+        "id_exact_match": 0.0088,
+        "persian_letter_outputs": 0
+      },
+      "latin": {
+        "lines": 157,
+        "cer": 0.0311,
+        "line_exact_match": 0.8854,
+        "numbers": 189,
+        "number_exact_match": 0.9894,
+        "ids": 36,
+        "id_exact_match": 0.9722,
+        "persian_letter_outputs": 0
+      },
+      "mixed_script": {
+        "lines": 163,
+        "cer": 0.503,
+        "line_exact_match": 0.0123,
+        "numbers": 195,
+        "number_exact_match": 0.1692,
+        "ids": 69,
+        "id_exact_match": 0.2029,
+        "persian_letter_outputs": 0
+      },
+      "arabic_indic_digits": {
+        "lines": 197,
+        "cer": 0.4454,
+        "line_exact_match": 0.0558,
+        "numbers": 401,
+        "number_exact_match": 0.0898,
+        "ids": 47,
+        "id_exact_match": 0.0,
+        "persian_letter_outputs": 0
+      },
+      "ascii_digits": {
+        "lines": 588,
+        "cer": 0.369,
+        "line_exact_match": 0.2432,
+        "numbers": 901,
+        "number_exact_match": 0.3396,
+        "ids": 171,
+        "id_exact_match": 0.2924,
+        "persian_letter_outputs": 0
+      },
+      "ascii_digits_in_arabic": {
+        "lines": 436,
+        "cer": 0.4707,
+        "line_exact_match": 0.0161,
+        "numbers": 645,
+        "number_exact_match": 0.093,
+        "ids": 135,
+        "id_exact_match": 0.1111,
+        "persian_letter_outputs": 0
+      },
+      "arabic_decimal": {
+        "lines": 105,
+        "cer": 0.557,
+        "line_exact_match": 0.0095,
+        "numbers": 210,
+        "number_exact_match": 0.0286,
+        "ids": 0,
+        "id_exact_match": null,
+        "persian_letter_outputs": 0
+      },
+      "ids": {
+        "lines": 218,
+        "cer": 0.4349,
+        "line_exact_match": 0.1514,
+        "numbers": 536,
+        "number_exact_match": 0.2425,
+        "ids": 218,
+        "id_exact_match": 0.2294,
+        "persian_letter_outputs": 0
+      }
+    },
+    "raw_model": {
+      "all": {
+        "lines": 1000,
+        "cer": 0.2635,
+        "line_exact_match": 0.236,
+        "numbers": 1258,
+        "number_exact_match": 0.2687,
+        "ids": 218,
+        "id_exact_match": 0.2294,
+        "persian_letter_outputs": 0
+      },
+      "arabic": {
+        "lines": 571,
+        "cer": 0.2939,
+        "line_exact_match": 0.0736,
+        "numbers": 653,
+        "number_exact_match": 0.0689,
+        "ids": 113,
+        "id_exact_match": 0.0088,
+        "persian_letter_outputs": 0
+      },
+      "latin": {
+        "lines": 157,
+        "cer": 0.0297,
+        "line_exact_match": 0.8854,
+        "numbers": 189,
+        "number_exact_match": 0.9894,
+        "ids": 36,
+        "id_exact_match": 0.9722,
+        "persian_letter_outputs": 0
+      },
+      "mixed_script": {
+        "lines": 163,
+        "cer": 0.4361,
+        "line_exact_match": 0.0184,
+        "numbers": 195,
+        "number_exact_match": 0.1692,
+        "ids": 69,
+        "id_exact_match": 0.2029,
+        "persian_letter_outputs": 0
+      },
+      "arabic_indic_digits": {
+        "lines": 197,
+        "cer": 0.2759,
+        "line_exact_match": 0.0558,
+        "numbers": 401,
+        "number_exact_match": 0.0898,
+        "ids": 47,
+        "id_exact_match": 0.0,
+        "persian_letter_outputs": 0
+      },
+      "ascii_digits": {
+        "lines": 588,
+        "cer": 0.3431,
+        "line_exact_match": 0.2449,
+        "numbers": 901,
+        "number_exact_match": 0.3396,
+        "ids": 171,
+        "id_exact_match": 0.2924,
+        "persian_letter_outputs": 0
+      },
+      "ascii_digits_in_arabic": {
+        "lines": 436,
+        "cer": 0.4376,
+        "line_exact_match": 0.0183,
+        "numbers": 645,
+        "number_exact_match": 0.093,
+        "ids": 135,
+        "id_exact_match": 0.1111,
+        "persian_letter_outputs": 0
+      },
+      "arabic_decimal": {
+        "lines": 105,
+        "cer": 0.276,
+        "line_exact_match": 0.0095,
+        "numbers": 210,
+        "number_exact_match": 0.0286,
+        "ids": 0,
+        "id_exact_match": null,
+        "persian_letter_outputs": 0
+      },
+      "ids": {
+        "lines": 218,
+        "cer": 0.3727,
+        "line_exact_match": 0.156,
+        "numbers": 536,
+        "number_exact_match": 0.2425,
+        "ids": 218,
+        "id_exact_match": 0.2294,
+        "persian_letter_outputs": 0
+      }
+    }
+  },
+  "after": {
+    "digital_eye": {
+      "all": {
+        "lines": 1000,
+        "cer": 0.11,
+        "line_exact_match": 0.772,
+        "numbers": 1258,
+        "number_exact_match": 0.9706,
+        "ids": 218,
+        "id_exact_match": 0.8991,
+        "persian_letter_outputs": 0
+      },
+      "arabic": {
+        "lines": 571,
+        "cer": 0.0213,
+        "line_exact_match": 0.8266,
+        "numbers": 653,
+        "number_exact_match": 0.9709,
+        "ids": 113,
+        "id_exact_match": 0.8407,
+        "persian_letter_outputs": 0
+      },
+      "latin": {
+        "lines": 157,
+        "cer": 0.002,
+        "line_exact_match": 0.9745,
+        "numbers": 189,
+        "number_exact_match": 1.0,
+        "ids": 36,
+        "id_exact_match": 1.0,
+        "persian_letter_outputs": 0
+      },
+      "mixed_script": {
+        "lines": 163,
+        "cer": 0.5271,
+        "line_exact_match": 0.2699,
+        "numbers": 195,
+        "number_exact_match": 0.9538,
+        "ids": 69,
+        "id_exact_match": 0.942,
+        "persian_letter_outputs": 0
+      },
+      "arabic_indic_digits": {
+        "lines": 197,
+        "cer": 0.0342,
+        "line_exact_match": 0.7817,
+        "numbers": 401,
+        "number_exact_match": 0.9426,
+        "ids": 47,
+        "id_exact_match": 0.8936,
+        "persian_letter_outputs": 0
+      },
+      "ascii_digits": {
+        "lines": 588,
+        "cer": 0.1808,
+        "line_exact_match": 0.7449,
+        "numbers": 901,
+        "number_exact_match": 0.9822,
+        "ids": 171,
+        "id_exact_match": 0.9006,
+        "persian_letter_outputs": 0
+      },
+      "ascii_digits_in_arabic": {
+        "lines": 436,
+        "cer": 0.2316,
+        "line_exact_match": 0.6606,
+        "numbers": 645,
+        "number_exact_match": 0.9783,
+        "ids": 135,
+        "id_exact_match": 0.8741,
+        "persian_letter_outputs": 0
+      },
+      "arabic_decimal": {
+        "lines": 105,
+        "cer": 0.0481,
+        "line_exact_match": 0.7524,
+        "numbers": 210,
+        "number_exact_match": 0.9381,
+        "ids": 0,
+        "id_exact_match": null,
+        "persian_letter_outputs": 0
+      },
+      "ids": {
+        "lines": 218,
+        "cer": 0.2811,
+        "line_exact_match": 0.5688,
+        "numbers": 536,
+        "number_exact_match": 0.9776,
+        "ids": 218,
+        "id_exact_match": 0.8991,
+        "persian_letter_outputs": 0
+      }
+    },
+    "raw_model": {
+      "all": {
+        "lines": 1000,
+        "cer": 0.0108,
+        "line_exact_match": 0.88,
+        "numbers": 1258,
+        "number_exact_match": 0.9706,
+        "ids": 218,
+        "id_exact_match": 0.9541,
+        "persian_letter_outputs": 0
+      },
+      "arabic": {
+        "lines": 571,
+        "cer": 0.0145,
+        "line_exact_match": 0.8459,
+        "numbers": 653,
+        "number_exact_match": 0.9709,
+        "ids": 113,
+        "id_exact_match": 0.9469,
+        "persian_letter_outputs": 0
+      },
+      "latin": {
+        "lines": 157,
+        "cer": 0.002,
+        "line_exact_match": 0.9745,
+        "numbers": 189,
+        "number_exact_match": 1.0,
+        "ids": 36,
+        "id_exact_match": 1.0,
+        "persian_letter_outputs": 0
+      },
+      "mixed_script": {
+        "lines": 163,
+        "cer": 0.0096,
+        "line_exact_match": 0.865,
+        "numbers": 195,
+        "number_exact_match": 0.9538,
+        "ids": 69,
+        "id_exact_match": 0.942,
+        "persian_letter_outputs": 0
+      },
+      "arabic_indic_digits": {
+        "lines": 197,
+        "cer": 0.0113,
+        "line_exact_match": 0.8325,
+        "numbers": 401,
+        "number_exact_match": 0.9426,
+        "ids": 47,
+        "id_exact_match": 0.8936,
+        "persian_letter_outputs": 0
+      },
+      "ascii_digits": {
+        "lines": 588,
+        "cer": 0.0068,
+        "line_exact_match": 0.915,
+        "numbers": 901,
+        "number_exact_match": 0.9822,
+        "ids": 171,
+        "id_exact_match": 0.9708,
+        "persian_letter_outputs": 0
+      },
+      "ascii_digits_in_arabic": {
+        "lines": 436,
+        "cer": 0.0085,
+        "line_exact_match": 0.8899,
+        "numbers": 645,
+        "number_exact_match": 0.9783,
+        "ids": 135,
+        "id_exact_match": 0.963,
+        "persian_letter_outputs": 0
+      },
+      "arabic_decimal": {
+        "lines": 105,
+        "cer": 0.0095,
+        "line_exact_match": 0.8476,
+        "numbers": 210,
+        "number_exact_match": 0.9381,
+        "ids": 0,
+        "id_exact_match": null,
+        "persian_letter_outputs": 0
+      },
+      "ids": {
+        "lines": 218,
+        "cer": 0.0099,
+        "line_exact_match": 0.8624,
+        "numbers": 536,
+        "number_exact_match": 0.9776,
+        "ids": 218,
+        "id_exact_match": 0.9541,
+        "persian_letter_outputs": 0
+      }
+    }
+  },
+  "verdict": {
+    "passed": true,
+    "problems": [],
+    "warnings": [
+      "mixed_script: character error rate got worse (0.5030 -> 0.5271, 163 lines)"
+    ]
+  }
+}

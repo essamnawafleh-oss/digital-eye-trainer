@@ -89,14 +89,18 @@ python -m eye_trainer demo --steps 300         # synthetic-only end-to-end check
 
 ## Results so far (synthetic data only)
 
-See [docs/SAMPLE_EVALUATION_REPORT.md](docs/SAMPLE_EVALUATION_REPORT.md) and
+A 50-minute CPU run on 6,000 synthetic lines, then Digital Eye's own benchmark (unchanged
+code, 45 freshly generated documents in a font not used for training), original → fine-tuned:
+field exact match 84.0% → 98.7%, critical fields 71.3% → 97.2%, Arabic permit fields correct
+37 → 70 of 72, false acceptances 1 → 0. Mixed-line run order is still limited by PaddleX's bidi
+step. Details: [docs/SAMPLE_EVALUATION_REPORT.md](docs/SAMPLE_EVALUATION_REPORT.md),
 [docs/INTEGRATION.md](docs/INTEGRATION.md). **No real document has been used.** Numbers on
 synthetic lines show that the pipeline works and can fix the targeted weaknesses; they do not
 predict accuracy on your scans.
 
 ## Tests
 
-`run_tests.sh` / `run_tests.bat` (≈5 min on 4 CPU cores). Synthetic data only. Tests that need
+`run_tests.sh` / `run_tests.bat` (≈3 min on 4 CPU cores; 46 tests, all passing on Linux). Synthetic data only. Tests that need
 the base models are skipped if they are not downloaded.
 
 ## Documents

@@ -66,7 +66,8 @@ Synthetic lines only (no real documents involved):
 
 1. Load base inference weights → trainable model (≈5 s, verified identical outputs).
 2. Fine-tune with CTC loss, Adam, warm-up + cosine schedule, BatchNorm statistics frozen,
-   batch 16: **≈4–5 s per step on 4 CPU cores** (≈3–4 steps/minute alone on the machine).
+   batch 16, 4 CPU cores: **≈2.5 s per step** when nothing else runs (1,200 steps in 50 minutes),
+   ≈4–5 s per step while other heavy work runs.
    Resume after interruption verified (stop after 2 steps, restart, finish at 4).
 3. Export → folder with `inference.json/.pdiparams/.yml`.
 4. Load the exported folder with `paddleocr.TextRecognition` → identical text to the trained model.
