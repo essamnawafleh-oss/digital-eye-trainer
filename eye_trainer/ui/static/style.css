@@ -1,0 +1,63 @@
+:root {
+  --bg: #f6f5f1; --panel: #ffffff; --ink: #1d1d1b; --muted: #6b6a64; --line: #dedcd4;
+  --accent: #0f6e5a; --accent-ink: #ffffff; --warn: #9a4b00; --bad: #b3261e; --good: #1b7f3a;
+  --preview: #fbfaf6;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #161614; --panel: #1f1f1c; --ink: #ecebe6; --muted: #a3a29b; --line: #36352f;
+    --accent: #3fb59a; --accent-ink: #0b1f1a; --warn: #f0a457; --bad: #ff8a80; --good: #7ad58f;
+    --preview: #262622;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink);
+       font: 16px/1.6 "Segoe UI", Tahoma, "Noto Sans Arabic", "DejaVu Sans", sans-serif; }
+header { padding: 16px 16px 0; max-width: 1100px; margin: 0 auto; }
+h1 { margin: 0; font-size: 1.5rem; }
+h1 small, h2 small, h3 small { color: var(--muted); font-weight: normal; font-size: .7em; }
+.privacy { color: var(--good); margin: 4px 0 12px; }
+nav { display: flex; flex-wrap: wrap; gap: 6px; border-bottom: 1px solid var(--line); }
+.tab { border: 1px solid var(--line); border-bottom: none; border-radius: 8px 8px 0 0; background: transparent; }
+.tab.active { background: var(--panel); font-weight: bold; }
+main { max-width: 1100px; margin: 0 auto; padding: 0 16px 32px; }
+.panel { background: var(--panel); border: 1px solid var(--line); border-top: none; padding: 16px; }
+.log-panel { margin-top: 16px; border-top: 1px solid var(--line); border-radius: 8px; }
+.hidden { display: none !important; }
+button { font: inherit; padding: 6px 14px; border-radius: 8px; border: 1px solid var(--line);
+         background: var(--bg); color: var(--ink); cursor: pointer; }
+button.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+button:disabled { opacity: .5; cursor: default; }
+input[type=text], input[type=number], select { font: inherit; padding: 4px 8px; border: 1px solid var(--line);
+         border-radius: 6px; background: var(--bg); color: var(--ink); max-width: 100%; }
+input[type=text] { width: 28em; }
+label { display: inline-block; margin: 6px 0 6px 16px; }
+label.check { font-size: .95em; }
+kbd { font-size: .75em; border: 1px solid var(--line); border-radius: 4px; padding: 0 4px; margin-inline-start: 4px; }
+.crop-wrap { background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 8px; overflow-x: auto; text-align: center; }
+#crop { max-width: 100%; min-height: 40px; image-rendering: auto; }
+.preview-title { margin-top: 10px; color: var(--muted); font-size: .9em; }
+.preview { background: var(--preview); border: 1px dashed var(--line); border-radius: 8px; padding: 6px 12px;
+           font-size: 1.6rem; min-height: 2.4em; unicode-bidi: plaintext; }
+.preview.rtl { direction: rtl; text-align: right; unicode-bidi: isolate; }
+.preview.ltr { direction: ltr; text-align: left; unicode-bidi: isolate; }
+textarea { width: 100%; font: 1.5rem/1.5 "Segoe UI", Tahoma, "Noto Sans Arabic", sans-serif; margin-top: 8px;
+           padding: 6px 10px; border: 2px solid var(--accent); border-radius: 8px; background: var(--panel); color: var(--ink); }
+.tools, .actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; align-items: center; }
+button.alt { direction: ltr; unicode-bidi: plaintext; }
+.meta { color: var(--muted); font-size: .9em; margin-top: 6px; }
+.progress-line { color: var(--muted); margin-bottom: 8px; }
+.bar { height: 14px; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; margin: 12px 0; }
+.bar > div { height: 100%; width: 0; background: var(--accent); transition: width .5s; }
+.stats { white-space: pre-wrap; }
+pre { white-space: pre-wrap; word-break: break-word; background: var(--bg); padding: 8px; border-radius: 8px;
+      max-height: 320px; overflow: auto; font-size: .85em; }
+.report { max-height: 520px; }
+.note { color: var(--muted); }
+.warn { color: var(--warn); }
+.help { margin-top: 12px; color: var(--muted); }
+.ok { color: var(--good); } .bad { color: var(--bad); }
+@media (max-width: 600px) {
+  input[type=text] { width: 100%; }
+  label { display: block; margin-inline-start: 0; }
+}

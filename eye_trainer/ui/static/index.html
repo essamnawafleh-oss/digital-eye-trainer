@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="token" content="__TOKEN__">
+<title>مدرّب العين الرقمية</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header>
+  <h1>مدرّب العين الرقمية <small lang="en" dir="ltr">Digital Eye Trainer</small></h1>
+  <p class="privacy">🔒 كل شيء يعمل على جهازك فقط، بلا إنترنت. <span lang="en" dir="ltr">Runs on this computer only, offline.</span></p>
+  <nav>
+    <button data-tab="import" class="tab">١ استيراد الوثائق</button>
+    <button data-tab="label" class="tab">٢ تصحيح الأسطر</button>
+    <button data-tab="train" class="tab">٣ التدريب</button>
+    <button data-tab="evaluate" class="tab">٤ التقييم والتصدير</button>
+  </nav>
+</header>
+
+<main>
+<section id="tab-import" class="panel">
+  <h2>استيراد الوثائق <small dir="ltr">Import</small></h2>
+  <p>ضع ملفات PDF أو الصور في مجلد، ثم اكتب مسار المجلد هنا (أو اتركه فارغاً لاستخدام مجلد <code>inbox</code> داخل مساحة العمل).
+     سيكتشف البرنامج الأسطر ويقصّها ويقترح قراءة لكل سطر.</p>
+  <label>مسار المجلد <input id="folder" type="text" dir="ltr" placeholder="C:\Users\me\Documents\scans"></label>
+  <button id="btn-import" class="primary">ابدأ الاستيراد</button>
+  <h3>بيانات اصطناعية <small dir="ltr">Synthetic data</small></h3>
+  <p>أسطر يولّدها البرنامج بنفسه (أرقام، وحدات، تواريخ، رموز) لتقوية التدريب. لا تحتوي أي شيء من وثائقك.</p>
+  <label>عدد الأسطر <input id="synth-lines" type="number" value="6000" min="500" step="500"></label>
+  <button id="btn-synth">أنشئ بيانات اصطناعية</button>
+  <div class="stats" id="import-stats"></div>
+</section>
+
+<section id="tab-label" class="panel">
+  <h2>تصحيح الأسطر <small dir="ltr">Labelling</small></h2>
+  <div class="progress-line" id="label-progress"></div>
+  <div id="label-empty" class="note hidden">لا توجد أسطر بانتظار التصحيح. استورد وثائق أولاً.</div>
+  <div id="label-box" class="hidden">
+    <div class="crop-wrap"><img id="crop" alt="صورة السطر"></div>
+    <div class="preview-title">هكذا سيظهر نصك (قارنه بالصورة أعلاه):</div>
+    <div id="preview" class="preview"></div>
+    <textarea id="text" rows="2" spellcheck="false" autocomplete="off"></textarea>
+    <div class="tools">
+      <button data-ins="٫" title="فاصلة عشرية عربية">٫</button>
+      <button data-ins="٬" title="فاصل آلاف عربي">٬</button>
+      <button data-ins="²">²</button>
+      <button id="btn-dir" title="F3">الاتجاه: <span id="dir-label"></span></button>
+      <button id="btn-alt" class="alt hidden" title="استخدم قراءة النموذج الإنجليزي"></button>
+      <label class="check"><input type="checkbox" id="persian" checked> حوّل ی ک الفارسية إلى ي ك</label>
+    </div>
+    <div class="meta" id="meta"></div>
+    <div class="actions">
+      <button id="btn-save" class="primary">حفظ والتالي <kbd>Enter</kbd></button>
+      <button id="btn-skip">تخطٍّ <kbd>F2</kbd></button>
+      <button id="btn-flag">غير مقروء <kbd>F4</kbd></button>
+      <button id="btn-prev">السابق <kbd>PageUp</kbd></button>
+      <button id="btn-reset">استرجاع الاقتراح <kbd>Esc</kbd></button>
+    </div>
+    <details class="help"><summary>كيف أصحّح؟</summary>
+      <ul>
+        <li>اكتب النص كما تكتبه عادةً (بالترتيب الطبيعي)، وليس كما يُرى حرفاً حرفاً.</li>
+        <li>اكتب الأرقام كما هي في الصورة: هندية (٠١٢) أو لاتينية (012)، مع الفاصلة العشرية <b>٫</b> إن وُجدت.</li>
+        <li>قارن سطر المعاينة بالصورة: إذا اختلف ترتيب الكلمات، صحّح النص أو بدّل الاتجاه.</li>
+        <li>إذا كان السطر غير واضح أو مقصوصاً خطأً اضغط «غير مقروء»؛ لن يُستخدم في التدريب.</li>
+        <li>يُحفظ كل سطر فوراً؛ يمكنك الإغلاق والمتابعة لاحقاً.</li>
+      </ul>
+    </details>
+  </div>
+</section>
+
+<section id="tab-train" class="panel">
+  <h2>التدريب <small dir="ltr">Training</small></h2>
+  <p id="split-info"></p>
+  <label>اسم التجربة <input id="run" type="text" value="run1" dir="ltr"></label>
+  <label>عدد الخطوات <input id="steps" type="number" value="3000" min="50" step="50"></label>
+  <label>حجم الدفعة <input id="bs" type="number" value="16" min="2" max="128"></label>
+  <label class="check"><input type="checkbox" id="use-syn" checked> استخدم البيانات الاصطناعية أيضاً</label>
+  <div class="actions">
+    <button id="btn-train" class="primary">ابدأ / تابع التدريب</button>
+    <button id="btn-stop">إيقاف مؤقت (يُحفظ التقدّم)</button>
+  </div>
+  <div class="bar"><div id="train-bar"></div></div>
+  <div id="train-info" class="stats"></div>
+</section>
+
+<section id="tab-evaluate" class="panel">
+  <h2>التقييم والتصدير <small dir="ltr">Evaluate &amp; export</small></h2>
+  <p>يقارن النموذج الجديد بالأصلي على وثائق الاختبار التي لم تُستخدم في التدريب أبداً. إذا كان الجديد أسوأ، يُرفض التصدير.</p>
+  <label>اسم التجربة <select id="eval-run"></select></label>
+  <div class="actions">
+    <button id="btn-eval" class="primary">قيِّم</button>
+    <button id="btn-export">صدِّر للعين الرقمية</button>
+  </div>
+  <pre id="report" class="report" dir="ltr"></pre>
+  <div id="exports" class="stats"></div>
+  <p class="warn">⚠️ النموذج المدرَّب قد يحفظ نصوصاً متكررة من وثائقك (كالأسماء). عامِله كوثيقة سرّية ولا تشاركه.</p>
+</section>
+
+<section class="panel log-panel">
+  <h3>سجل العمليات <small dir="ltr">Job log</small> <span id="job-status"></span></h3>
+  <pre id="log" dir="auto"></pre>
+</section>
+</main>
+<script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+[project]
+name = "digital-eye-trainer"
+version = "0.1.0"
+description = "Local, offline fine-tuning of the Arabic PP-OCRv5 text recogniser for Digital Eye"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+filterwarnings = ["ignore::DeprecationWarning", "ignore::UserWarning"]

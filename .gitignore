@@ -1,0 +1,8 @@
+# Your documents, labels, models and reports never go into git.
+workspace/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.pdparams
+*.pdopt

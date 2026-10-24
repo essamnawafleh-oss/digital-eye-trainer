@@ -1,0 +1,12 @@
+Files in this directory are copied from PaddleOCR v3.7.0
+(https://github.com/PaddlePaddle/PaddleOCR, tag v3.7.0, commit b03f46425e8ff4442b268ce449e3eef758146cd4),
+licensed under the Apache License 2.0 (see LICENSE in this directory).
+
+  rec_lcnetv3.py   <- ppocr/modeling/backbones/rec_lcnetv3.py
+                      modified: MeanPool2D copied in from ppocr/modeling/backbones/rec_hgnet.py
+  rec_svtrnet.py   <- ppocr/modeling/backbones/rec_svtrnet.py (unmodified)
+  rnn.py           <- ppocr/modeling/necks/rnn.py
+                      modified: imports made relative to this package
+  rec_ctc_head.py  <- ppocr/modeling/heads/rec_ctc_head.py (unmodified)
+
+Copyright (c) 2020-2025 PaddlePaddle Authors. All Rights Reserved.
