@@ -30,7 +30,17 @@ synthetic lines (numbers, units, dates, IDs, mixed) ─────────�
 * **A fine-tuned model can memorise frequent strings (names, plot numbers). Treat it as
   confidential.** See [docs/PRIVACY.md](docs/PRIVACY.md).
 
-## Install (once, needs internet)
+## Windows app (easiest)
+
+Download **[DigitalEyeTrainer-windows-x64.zip](https://github.com/essamnawafleh-oss/digital-eye-trainer/releases/latest/download/DigitalEyeTrainer-windows-x64.zip)**
+(~300 MB), unzip to a normal folder (not a cloud-synced one), double-click
+`DigitalEyeTrainer.exe`. No Python and no internet needed: the base models and FriBiDi are
+bundled. The ZIP is built by `.github/workflows/windows-exe.yml` on a Windows runner, which first
+runs the whole test suite on Windows and then runs the exe itself (machine check, a short
+train/evaluate/export, verify-export, page start) before publishing. Not code-signed:
+SmartScreen may ask for confirmation. Command line: `DigitalEyeTrainer.exe check | import FOLDER | train | ...`.
+
+## Install from source (once, needs internet)
 
 | | CPU (everywhere) | NVIDIA GPU (unverified) |
 |---|---|---|

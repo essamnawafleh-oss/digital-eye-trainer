@@ -5,8 +5,10 @@
 * **No real document has been used.** Development, tests and all published numbers use
   synthetic lines and pages. Real scans (other fonts, stamps, handwriting, photos, faded
   paper) will behave differently. The first real numbers will come from your machine.
-* **Windows**: the scripts and the code were written for Windows (UTF-8 console, `.bat` files,
-  Windows RAM check, wheels exist for every pinned package), but nothing was run on Windows.
+* **Windows**: verified on GitHub's Windows Server runner (full test suite + the packaged exe:
+  check, short train/evaluate/export, page start). Not yet run on a desktop Windows 10/11 PC, and
+  `install.bat` / `start.bat` themselves are not exercised by CI (the exe path is). Found there and
+  fixed: Pillow's Windows wheels need `fribidi-0.dll` for Arabic shaping.
 * **GPU training**: not run (no GPU available, Paddle's GPU wheel index blocked). The device
   is selected automatically; CPU fallback is the tested path.
 * **macOS**: not tested.

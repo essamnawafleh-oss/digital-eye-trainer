@@ -22,7 +22,17 @@
 
 التفاصيل: [docs/PRIVACY.md](docs/PRIVACY.md)
 
-## التثبيت (مرة واحدة، يحتاج إنترنت)
+## الطريقة الأسهل: برنامج جاهز لويندوز (exe)
+
+1. نزّل الملف: **[DigitalEyeTrainer-windows-x64.zip](https://github.com/essamnawafleh-oss/digital-eye-trainer/releases/latest/download/DigitalEyeTrainer-windows-x64.zip)** (حوالي 300 ميغابايت).
+2. فك الضغط في مجلد عادي مثل `C:\DigitalEyeTrainer` (ليس داخل OneDrive أو Google Drive).
+3. انقر مرتين على **`DigitalEyeTrainer.exe`**. تُفتح الصفحة في المتصفح.
+
+لا يحتاج تثبيت بايثون ولا إنترنت: النماذج الأساسية موجودة داخله. إذا ظهرت رسالة
+«Windows protected your PC» اضغط **More info** ثم **Run anyway** (تظهر لأن البرنامج غير موقّع رقمياً).
+هذا البرنامج يُبنى ويُختبر تلقائياً على ويندوز في كل تحديث.
+
+## التثبيت من الكود (بديل، يحتاج إنترنت مرة واحدة)
 
 **ويندوز:**
 1. ثبّت بايثون 3.13 من الموقع الرسمي python.org، واختر خيار **Add python.exe to PATH**.
