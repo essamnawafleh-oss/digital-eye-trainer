@@ -122,6 +122,11 @@ def download_models(ws: Workspace, log=print) -> dict:
         card = (target / "README.md").read_text(encoding="utf-8", errors="replace") if (target / "README.md").exists() else ""
         out[name] = {"files_sha256": files, "license_apache_2_0": "license: apache-2.0" in card.lower()}
     (ws.root / "models" / "manifest.json").write_text(json.dumps(out, indent=2), encoding="utf-8")
+    if sys.platform == "win32":
+        from . import winfribidi
+
+        log(say("تنزيل مكتبة FriBiDi لعرض العربية بشكل صحيح ...", "installing FriBiDi (Arabic text layout) ..."))
+        winfribidi.install()
     return out
 
 

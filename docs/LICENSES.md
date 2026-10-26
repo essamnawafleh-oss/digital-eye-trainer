@@ -12,6 +12,8 @@ This repository's own code: **Apache-2.0** (see `LICENSE`).
 | `fonts/Cairo.ttf` | SIL OFL 1.1 (`fonts/OFL-Cairo.txt`) | google/fonts `ofl/cairo` |
 | `fonts/ScheherazadeNew-Regular.ttf` | SIL OFL 1.1 (`fonts/OFL-ScheherazadeNew.txt`) | google/fonts `ofl/scheherazadenew` |
 
+| `fribidi-0.dll` (Windows only; downloaded by `download-models`, bundled in the .exe) | **LGPL-2.1-or-later**, unmodified binary from conda-forge `fribidi-1.0.17-hfd05255_0` (SHA-256 pinned in `eye_trainer/winfribidi.py`); licence text `third_party/fribidi/COPYING`; source https://github.com/fribidi/fribidi/tree/v1.0.17 | needed by Pillow for Arabic shaping on Windows; it is a separate DLL and can be replaced |
+
 The OFL allows bundling and redistribution with the licence text; the fonts are not sold on
 their own and are not modified.
 
@@ -42,6 +44,8 @@ traces of your documents, see `docs/PRIVACY.md`).
 | pypdfium2 | 5.14.0 | Apache-2.0 / BSD-3-Clause (PDFium: BSD-3-Clause) |
 | fonttools | 4.67.0 | MIT |
 | huggingface_hub | 2.3.0 | Apache-2.0 |
+| zstandard (Windows only) | 0.25.0 | BSD-3-Clause |
+| pyinstaller (building the .exe only) | 6.22.3 | GPL-2.0 with bootloader exception (allows distributing the built app under any licence) |
 | pytest (tests only) | 9.1.1 | MIT |
 
 Transitive dependencies pulled in by paddlex (pandas, pydantic, requests, modelscope,

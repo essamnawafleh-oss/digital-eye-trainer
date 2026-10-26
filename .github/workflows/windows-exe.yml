@@ -65,6 +65,7 @@ jobs:
           $exe = "dist\DigitalEyeTrainer\DigitalEyeTrainer.exe"
           & $exe check *> exe_check.log
           if ($LASTEXITCODE -ne 0) { python .github/annotate.py exe_check.log; exit 1 }
+          if (-not (Select-String -Path exe_check.log -Pattern '"pillow_raqm": true' -Quiet)) { python .github/annotate.py exe_check.log; exit 1 }
           & $exe demo --lines 60 --steps 3 --batch-size 4 --run ci *> exe_demo.log
           if ($LASTEXITCODE -ne 0) { python .github/annotate.py exe_demo.log; exit 1 }
           & $exe verify-export "dist\DigitalEyeTrainer\workspace\exports\arabic_PP-OCRv5_mobile_rec_ft_ci" *> exe_verify.log

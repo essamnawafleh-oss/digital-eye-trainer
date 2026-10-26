@@ -1,6 +1,7 @@
 # PyInstaller spec: one-folder Windows/Linux build of Digital Eye Trainer.
 #   pyinstaller packaging/DigitalEyeTrainer.spec --noconfirm
 # Expects the three base models in ./base_models/<name>/ (see .github/workflows/windows-exe.yml).
+import sys
 from importlib.metadata import distributions
 from pathlib import Path
 
@@ -20,6 +21,13 @@ import paddle as _paddle
 _libs = Path(_paddle.__file__).parent / "libs"
 for pattern in ("*mklml*", "*iomp*", "*warpctc*", "*warprnnt*"):
     binaries += [(str(f), ".") for f in _libs.glob(pattern)]
+# Pillow loads FriBiDi (Arabic layout) from fribidi-0.dll at run time: ship it next to the exe.
+_fribidi = ROOT / "eye_trainer" / "_bin" / "fribidi-0.dll"
+if _fribidi.is_file():
+    binaries.append((str(_fribidi), "."))
+elif sys.platform == "win32":
+    raise SystemExit("eye_trainer/_bin/fribidi-0.dll is missing: run `python -m eye_trainer download-models` first")
+datas.append((str(ROOT / "third_party" / "fribidi" / "COPYING"), "third_party/fribidi"))
 # paddlex checks optional dependencies through package metadata at run time.
 for dist in distributions():
     try:
