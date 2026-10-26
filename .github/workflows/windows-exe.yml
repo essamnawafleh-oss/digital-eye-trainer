@@ -1,0 +1,97 @@
+# Builds DigitalEyeTrainer.exe on Windows, tests it, and publishes the ZIP as a release.
+# Only synthetic data is used. The base models (Apache-2.0) are bundled so the app never
+# needs the internet on the user's computer.
+name: Windows app
+
+on:
+  push:
+    paths-ignore: ["**.md", "docs/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 150
+    env:
+      PYTHONUTF8: "1"
+      PYTHONIOENCODING: "utf-8"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install pinned dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-dev.txt pyinstaller==6.22.3
+
+      - name: Download base models
+        run: python -m eye_trainer --workspace ci_ws download-models
+
+      - name: Machine check
+        run: python -m eye_trainer --workspace ci_ws check
+
+      - name: Test suite on Windows (synthetic data)
+        env:
+          EYE_TRAINER_TEST_MODELS: ${{ github.workspace }}\ci_ws\models
+        run: python -m pytest -q
+
+      - name: Build the app
+        shell: pwsh
+        run: |
+          foreach ($m in "PP-OCRv5_mobile_det", "arabic_PP-OCRv5_mobile_rec", "en_PP-OCRv5_mobile_rec") {
+            New-Item -ItemType Directory -Force "base_models\$m" | Out-Null
+            Copy-Item "ci_ws\models\$m\inference.*", "ci_ws\models\$m\README.md" "base_models\$m\"
+          }
+          pyinstaller packaging/DigitalEyeTrainer.spec --noconfirm
+          Copy-Item packaging\README_FIRST.txt dist\DigitalEyeTrainer\
+
+      - name: Test the exe (check, train, evaluate, export, page)
+        shell: pwsh
+        env:
+          EYE_TRAINER_DEBUG: "1"
+        run: |
+          $exe = "dist\DigitalEyeTrainer\DigitalEyeTrainer.exe"
+          & $exe check
+          if ($LASTEXITCODE -ne 0) { exit 1 }
+          & $exe demo --lines 60 --steps 3 --batch-size 4 --run ci
+          if ($LASTEXITCODE -ne 0) { exit 1 }
+          & $exe verify-export "dist\DigitalEyeTrainer\workspace\exports\arabic_PP-OCRv5_mobile_rec_ft_ci"
+          if ($LASTEXITCODE -ne 0) { exit 1 }
+          $p = Start-Process -FilePath $exe -ArgumentList "ui", "--no-browser", "--port", "8765" -PassThru
+          $ok = $false
+          foreach ($i in 1..60) {
+            Start-Sleep -Seconds 2
+            try { $r = Invoke-WebRequest -UseBasicParsing http://127.0.0.1:8765/; if ($r.StatusCode -eq 200) { $ok = $true; break } } catch {}
+          }
+          Stop-Process -Id $p.Id -Force
+          if (-not $ok) { Write-Error "the page did not start"; exit 1 }
+          Remove-Item -Recurse -Force "dist\DigitalEyeTrainer\workspace"
+
+      - name: Zip
+        shell: pwsh
+        run: Compress-Archive -Path dist\DigitalEyeTrainer -DestinationPath DigitalEyeTrainer-windows-x64.zip
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DigitalEyeTrainer-windows-x64
+          path: DigitalEyeTrainer-windows-x64.zip
+          retention-days: 30
+
+      - name: Publish release
+        if: github.ref_name == github.event.repository.default_branch
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $tag = "v" + (python -c "import eye_trainer; print(eye_trainer.__version__)")
+          gh release view $tag 2>$null
+          if ($LASTEXITCODE -ne 0) {
+            gh release create $tag --target $env:GITHUB_SHA --title "Digital Eye Trainer $tag (Windows)" --notes-file packaging/RELEASE_NOTES.md
+          }
+          gh release upload $tag DigitalEyeTrainer-windows-x64.zip --clobber

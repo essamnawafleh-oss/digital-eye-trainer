@@ -6,3 +6,6 @@ __pycache__/
 .pytest_cache/
 *.pdparams
 *.pdopt
+base_models/
+build/
+dist/

@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 import time
 from pathlib import Path
@@ -216,6 +217,10 @@ def main(argv=None) -> int:
     except KeyboardInterrupt:
         return 130
     except RuntimeError as exc:
+        if os.environ.get("EYE_TRAINER_DEBUG"):
+            import traceback
+
+            traceback.print_exc()
         print(f"\n{exc}", file=sys.stderr)
         return 2
 
