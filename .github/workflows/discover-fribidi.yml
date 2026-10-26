@@ -6,35 +6,38 @@ jobs:
   d:
     runs-on: windows-latest
     steps:
-      - shell: pwsh
+      - shell: bash
         run: |
           python -m pip install -q zstandard
           python - <<'PY'
-          import hashlib, io, json, tarfile, urllib.request, zipfile, zstandard, subprocess, os
-          files = json.load(urllib.request.urlopen("https://api.anaconda.org/package/conda-forge/fribidi/files"))
-          win = [f for f in files if f["attrs"].get("subdir") == "win-64"]
-          win.sort(key=lambda f: (tuple(int(x) for x in f["version"].split(".")), f["attrs"].get("build_number", 0)))
-          out = []
-          for f in win[-3:]:
-              out.append(f"{f['version']} {f['basename']} sha256={f.get('sha256')} lic={f['attrs'].get('license')} deps={f['attrs'].get('depends')}")
-          f = win[-1]
-          url = "https://conda.anaconda.org/conda-forge/" + f["basename"]
-          data = urllib.request.urlopen(url).read()
-          out.append(f"URL {url} sha256={hashlib.sha256(data).hexdigest()} size={len(data)}")
-          names = {}
-          if f["basename"].endswith(".conda"):
-              z = zipfile.ZipFile(io.BytesIO(data))
-              pkg = [n for n in z.namelist() if n.startswith("pkg-")][0]
-              tar = tarfile.open(fileobj=io.BytesIO(zstandard.ZstdDecompressor().decompressobj().decompress(z.read(pkg))))
-          else:
-              tar = tarfile.open(fileobj=io.BytesIO(data), mode="r:bz2")
-          for m in tar.getmembers():
-              if m.name.lower().endswith(".dll") or "license" in m.name.lower() or "copying" in m.name.lower():
-                  b = tar.extractfile(m).read()
-                  out.append(f"MEMBER {m.name} sha256={hashlib.sha256(b).hexdigest()} size={len(b)}")
-                  if m.name.lower().endswith(".dll"):
-                      open("x.dll", "wb").write(b)
-          dump = subprocess.run(["powershell", "-c", "& (Get-ChildItem 'C:/Program Files/Microsoft Visual Studio' -Recurse -Filter dumpbin.exe | Select -First 1).FullName /dependents x.dll"], capture_output=True, text=True).stdout
-          out.append("DEPENDENTS " + " ".join(l.strip() for l in dump.splitlines() if l.strip().lower().endswith(".dll")))
-          print("::notice title=fribidi::" + "%0A".join(out))
+          import hashlib, io, json, tarfile, urllib.request, zipfile, zstandard, subprocess, os, traceback
+          try:
+              files = json.load(urllib.request.urlopen("https://api.anaconda.org/package/conda-forge/fribidi/files"))
+              win = [f for f in files if f["attrs"].get("subdir") == "win-64"]
+              win.sort(key=lambda f: (tuple(int(x) for x in f["version"].split(".")), f["attrs"].get("build_number", 0)))
+              out = []
+              for f in win[-3:]:
+                  out.append(f"{f['version']} {f['basename']} sha256={f.get('sha256')} lic={f['attrs'].get('license')} deps={f['attrs'].get('depends')}")
+              f = win[-1]
+              url = "https://conda.anaconda.org/conda-forge/" + f["basename"]
+              data = urllib.request.urlopen(url).read()
+              out.append(f"URL {url} sha256={hashlib.sha256(data).hexdigest()} size={len(data)}")
+              names = {}
+              if f["basename"].endswith(".conda"):
+                  z = zipfile.ZipFile(io.BytesIO(data))
+                  pkg = [n for n in z.namelist() if n.startswith("pkg-")][0]
+                  tar = tarfile.open(fileobj=io.BytesIO(zstandard.ZstdDecompressor().decompressobj().decompress(z.read(pkg))))
+              else:
+                  tar = tarfile.open(fileobj=io.BytesIO(data), mode="r:bz2")
+              for m in tar.getmembers():
+                  if m.name.lower().endswith(".dll") or "license" in m.name.lower() or "copying" in m.name.lower():
+                      b = tar.extractfile(m).read()
+                      out.append(f"MEMBER {m.name} sha256={hashlib.sha256(b).hexdigest()} size={len(b)}")
+                      if m.name.lower().endswith(".dll"):
+                          open("x.dll", "wb").write(b)
+              dump = subprocess.run(["powershell", "-c", "& (Get-ChildItem 'C:/Program Files/Microsoft Visual Studio' -Recurse -Filter dumpbin.exe | Select -First 1).FullName /dependents x.dll"], capture_output=True, text=True).stdout
+              out.append("DEPENDENTS " + " ".join(l.strip() for l in dump.splitlines() if l.strip().lower().endswith(".dll")))
+              print("::notice title=fribidi::" + "%0A".join(out))
+          except Exception:
+              print("::error title=discover::" + traceback.format_exc().replace("\n", "%0A"))
           PY
