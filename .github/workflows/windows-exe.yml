@@ -39,7 +39,12 @@ jobs:
       - name: Test suite on Windows (synthetic data)
         env:
           EYE_TRAINER_TEST_MODELS: ${{ github.workspace }}\ci_ws\models
-        run: python -m pytest -q
+        shell: pwsh
+        run: |
+          python -m pytest -q -rfE --tb=short *> pytest.log
+          $code = $LASTEXITCODE
+          Get-Content pytest.log -Tail 40
+          if ($code -ne 0) { python .github/annotate.py pytest.log 200; exit 1 }
 
       - name: Build the app
         shell: pwsh
@@ -48,7 +53,8 @@ jobs:
             New-Item -ItemType Directory -Force "base_models\$m" | Out-Null
             Copy-Item "ci_ws\models\$m\inference.*", "ci_ws\models\$m\README.md" "base_models\$m\"
           }
-          pyinstaller packaging/DigitalEyeTrainer.spec --noconfirm
+          pyinstaller packaging/DigitalEyeTrainer.spec --noconfirm *> pyinstaller.log
+          if ($LASTEXITCODE -ne 0) { python .github/annotate.py pyinstaller.log 80; exit 1 }
           Copy-Item packaging\README_FIRST.txt dist\DigitalEyeTrainer\
 
       - name: Test the exe (check, train, evaluate, export, page)
@@ -57,12 +63,13 @@ jobs:
           EYE_TRAINER_DEBUG: "1"
         run: |
           $exe = "dist\DigitalEyeTrainer\DigitalEyeTrainer.exe"
-          & $exe check
-          if ($LASTEXITCODE -ne 0) { exit 1 }
-          & $exe demo --lines 60 --steps 3 --batch-size 4 --run ci
-          if ($LASTEXITCODE -ne 0) { exit 1 }
-          & $exe verify-export "dist\DigitalEyeTrainer\workspace\exports\arabic_PP-OCRv5_mobile_rec_ft_ci"
-          if ($LASTEXITCODE -ne 0) { exit 1 }
+          & $exe check *> exe_check.log
+          if ($LASTEXITCODE -ne 0) { python .github/annotate.py exe_check.log; exit 1 }
+          & $exe demo --lines 60 --steps 3 --batch-size 4 --run ci *> exe_demo.log
+          if ($LASTEXITCODE -ne 0) { python .github/annotate.py exe_demo.log; exit 1 }
+          & $exe verify-export "dist\DigitalEyeTrainer\workspace\exports\arabic_PP-OCRv5_mobile_rec_ft_ci" *> exe_verify.log
+          if ($LASTEXITCODE -ne 0) { python .github/annotate.py exe_verify.log; exit 1 }
+          python .github/annotate.py exe_demo.log 30 | ForEach-Object { $_ -replace "::error", "::notice" }
           $p = Start-Process -FilePath $exe -ArgumentList "ui", "--no-browser", "--port", "8765" -PassThru
           $ok = $false
           foreach ($i in 1..60) {
